@@ -1,3 +1,6 @@
+const currentTask = process.env.npm_lifecycle_event;
+console.log(currentTask);
+
 const path = require("path");
 const postCSSPlugins = [
   require("postcss-mixins"),
@@ -6,22 +9,10 @@ const postCSSPlugins = [
   require("postcss-nested"),
   require("autoprefixer"),
 ];
-module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
 
+let config = {
   entry: {
     bundle: path.resolve(__dirname, "app/assets/scripts/App.js"),
-  },
-
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-  },
-
-  devServer: {
-    static: "./dist",
-    port: 3000,
   },
 
   module: {
@@ -40,3 +31,28 @@ module.exports = {
     ],
   },
 };
+
+if (currentTask == "dev") {
+  config.output = {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  };
+
+  config.devServer = {
+    static: "./dist",
+    port: 3000,
+  };
+
+  config.mode = "development";
+}
+
+if (currentTask == "build") {
+  config.output = {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "docs"),
+  };
+
+  config.mode = "production";
+}
+
+module.exports = config;
