@@ -2,6 +2,9 @@ const currentTask = process.env.npm_lifecycle_event;
 console.log(currentTask);
 
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
 const postCSSPlugins = [
   require("postcss-mixins"),
   require("postcss-import"),
@@ -11,6 +14,17 @@ const postCSSPlugins = [
 ];
 
 // COMMON
+let cssConfig = {
+  test: /\.css$/i,
+  use: [
+    "css-loader",
+    {
+      loader: "postcss-loader",
+      options: { postcssOptions: { plugins: postCSSPlugins } },
+    },
+  ],
+};
+
 let config = {
   entry: {
     bundle: path.resolve(__dirname, "app/assets/scripts/App.js"),
@@ -18,25 +32,14 @@ let config = {
   devtool: "inline-source-map",
 
   module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: { postcssOptions: { plugins: postCSSPlugins } },
-          },
-        ],
-      },
-    ],
+    rules: [cssConfig],
   },
 };
 
 // DEVELOPMENT
 if (currentTask == "dev") {
   config.mode = "development";
+  cssConfig.use.unshift("style-loader");
 
   config.output = {
     filename: "bundle.js",
@@ -52,6 +55,7 @@ if (currentTask == "dev") {
 // PRODUCTION
 if (currentTask == "build") {
   config.mode = "production";
+  cssConfig.use.unshift(MiniCssExtractPlugin.loader);
 
   config.output = {
     path: path.resolve(__dirname, "docs"),
@@ -62,7 +66,13 @@ if (currentTask == "build") {
 
   config.optimization = {
     splitChunks: { chunks: "all" },
+    minimize: true,
+    minimizer: [`...`, new CssMinimizerPlugin()],
   };
+
+  config.plugins = [
+    new MiniCssExtractPlugin({ filename: "styles.[chunkhash].css" }),
+  ];
 }
 
 module.exports = config;
