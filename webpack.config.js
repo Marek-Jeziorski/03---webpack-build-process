@@ -10,10 +10,12 @@ const postCSSPlugins = [
   require("autoprefixer"),
 ];
 
+// COMMON
 let config = {
   entry: {
     bundle: path.resolve(__dirname, "app/assets/scripts/App.js"),
   },
+  devtool: "inline-source-map",
 
   module: {
     rules: [
@@ -32,7 +34,10 @@ let config = {
   },
 };
 
+// DEVELOPMENT
 if (currentTask == "dev") {
+  config.mode = "development";
+
   config.output = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
@@ -42,17 +47,22 @@ if (currentTask == "dev") {
     static: "./dist",
     port: 3000,
   };
-
-  config.mode = "development";
 }
 
+// PRODUCTION
 if (currentTask == "build") {
+  config.mode = "production";
+
   config.output = {
-    filename: "bundle.js",
     path: path.resolve(__dirname, "docs"),
+    filename: "[name].[chunkhash].js",
+    chunkFilename: "[name].[chunkhash].js",
+    clean: true,
   };
 
-  config.mode = "production";
+  config.optimization = {
+    splitChunks: { chunks: "all" },
+  };
 }
 
 module.exports = config;

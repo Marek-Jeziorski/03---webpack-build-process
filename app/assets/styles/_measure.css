@@ -1,0 +1,59 @@
+#measureME {
+  border: 4px dashed red;
+}
+
+.measure {
+  position: fixed;
+  z-index: 1000;
+  top: 100px;
+  right: 0;
+
+  min-width: 230px;
+  padding: 5px 16px;
+  background-color: rgba(0, 0, 0, 0.479);
+  color: var(--gray-100);
+  border: 2px solid red;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.63);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.2);
+  transition: all 0.3s ease-out;
+
+  &--is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+
+  &__close {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-weight: var(--fw-600-semibold);
+    transform: scaleX(1.5);
+    transform-origin: 100% 0;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--co-yellow);
+    }
+  }
+
+  span {
+    color: yellow;
+    float: right;
+  }
+
+  .line {
+    position: absolute;
+    z-index: 1000;
+    top: 846px;
+    width: 100%;
+    color: yellow;
+    margin: 0;
+
+    &--belt {
+      top: 864px;
+    }
+  }
+}
