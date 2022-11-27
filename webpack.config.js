@@ -4,6 +4,7 @@ console.log(currentTask);
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const postCSSPlugins = [
   require("postcss-mixins"),
@@ -25,11 +26,19 @@ let cssConfig = {
   ],
 };
 
+// main webpack config
 let config = {
   entry: {
     bundle: path.resolve(__dirname, "app/assets/scripts/App.js"),
   },
   devtool: "inline-source-map",
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "./dist/index.html",
+    }),
+  ],
 
   module: {
     rules: [cssConfig],
@@ -70,9 +79,9 @@ if (currentTask == "build") {
     minimizer: [`...`, new CssMinimizerPlugin()],
   };
 
-  config.plugins = [
-    new MiniCssExtractPlugin({ filename: "styles.[chunkhash].css" }),
-  ];
+  config.plugins.push(
+    new MiniCssExtractPlugin({ filename: "styles.[chunkhash].css" })
+  );
 }
 
 module.exports = config;
