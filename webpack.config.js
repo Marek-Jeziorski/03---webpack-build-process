@@ -28,21 +28,20 @@ let cssConfig = {
 
 // main webpack config
 let config = {
-  entry: {
-    bundle: path.resolve(__dirname, "app/assets/scripts/App.js"),
-  },
-  devtool: "inline-source-map",
+  entry: path.resolve(__dirname, "src/assets/scripts/App.js"),
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "./app/template.html",
-    }),
-  ],
+  devtool: "inline-source-map",
 
   module: {
     rules: [cssConfig],
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "src/docs/index.html",
+    }),
+  ],
 };
 
 // DEVELOPMENT
@@ -52,11 +51,11 @@ if (currentTask == "dev") {
 
   config.output = {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "src/docs"),
   };
 
   config.devServer = {
-    static: "./dist",
+    static: "src/docs",
     port: 3000,
   };
 }
@@ -67,7 +66,7 @@ if (currentTask == "build") {
   cssConfig.use.unshift(MiniCssExtractPlugin.loader);
 
   config.output = {
-    path: path.resolve(__dirname, "docs"),
+    path: path.resolve(__dirname, "dist"),
     filename: "[name].[chunkhash].js",
     chunkFilename: "[name].[chunkhash].js",
     clean: true,
