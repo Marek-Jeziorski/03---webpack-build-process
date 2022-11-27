@@ -36,7 +36,7 @@ let config = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: "./dist/index.html",
+      template: "./app/template.html",
     }),
   ],
 
