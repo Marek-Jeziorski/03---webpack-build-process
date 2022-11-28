@@ -5,6 +5,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const fse = require("fs-extra");
 
 const postCSSPlugins = [
   require("postcss-mixins"),
@@ -26,6 +27,18 @@ let cssConfig = {
   ],
 };
 
+let pages = fse
+  .readdirSync("src/docs")
+  .filter(function (file) {
+    return file.endsWith(".html");
+  })
+  .map(function (page) {
+    return new HtmlWebpackPlugin({
+      filename: page,
+      template: `src/docs/${page}`,
+    });
+  });
+
 // main webpack config
 let config = {
   entry: path.resolve(__dirname, "src/assets/scripts/App.js"),
@@ -36,12 +49,7 @@ let config = {
     rules: [cssConfig],
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "src/docs/index.html",
-    }),
-  ],
+  plugins: pages,
 };
 
 // DEVELOPMENT
