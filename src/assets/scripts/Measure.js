@@ -109,18 +109,18 @@ class Measure {
       `
     <div class="measure">
       <div class="measure__close">X</div>
-      <p>outerWidth <span id="outerWidth"></span></p>
-      <p>innerWidth <span id="innerWidth"></span></p>
-      <p>outerHeight <span id="outerHeight"></span></p>
-      <p>innerHeight <span id="innerHeight"></span></p>
-      <p>doc. Height <span id="documentHeight"></span></p>
-      <p>el. offsetTop <span id="el-offsetTop"></span></p>
-      <p>el. offsetHeight <span id="el-offsetHeight"></span></p>
-      <p>scrollY <span id="scrollY"></span></p>
-      <p>scrollY + innerH <span id="sh"></span></p>
+      <p>win.outerWidth <span id="outerWidth"></span></p>
+      <p>win.innerWidth <span id="innerWidth"></span></p>
+      <p>win.outerHeight <span id="outerHeight"></span></p>
+      <p>win.innerHeight <span id="innerHeight"></span></p>
+      <p>doc.height <span id="documentHeight"></span></p>
+      <p>doc.scrollY <span id="scrollY"></span></p>
+      <p>doc.scrollY + <br> win.innerHeight <span id="sh"></span></p>
+      <p>el.offsetTop <span id="el-offsetTop"></span></p>
+      <p>el.offsetHeight <span id="el-offsetHeight"></span></p>
       <hr />
-      <p>BoundingClientRect</p>
-      <p>scrollPercent %<span id="scrollPercent"> </span></p>
+      <p>el.BoundingClientRect</p>
+      <p>el.scrollPercent %<span id="scrollPercent"> </span></p>
       <p id="demo"></p>
     </div>
     `
