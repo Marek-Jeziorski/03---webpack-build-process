@@ -1,5 +1,12 @@
 body {
   background-color: black;
   color: greenyellow;
-  font-size: 1rem;
+
+  .btn {
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    color: black;
+    background-color: greenyellow;
+  }
 }
