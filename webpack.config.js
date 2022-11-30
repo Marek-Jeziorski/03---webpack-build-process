@@ -16,9 +16,14 @@ const postCSSPlugins = [
 ];
 
 class MyRunAfterCompile {
+  constructor(task) {
+    this.task = task;
+    console.log(task);
+  }
+
   apply(compiler) {
-    compiler.hooks.done.tap("Copy images", function () {
-      fse.copySync("src/assets/images", "dev/assets/images");
+    compiler.hooks.done.tap("Copy images", () => {
+      fse.copySync("src/assets/images", `${this.task}/assets/images`);
     });
   }
 }
@@ -70,13 +75,13 @@ if (currentTask == "dev") {
     path: path.resolve(__dirname, "dev"),
   };
 
+  config.plugins.push(new MyRunAfterCompile("dev"));
+
   config.devServer = {
-    static: "dev",
+    static: "./dev",
     watchFiles: path.join(__dirname, "src/**/*.html"),
     port: 3000,
   };
-
-  config.plugins.push(new MyRunAfterCompile());
 }
 
 // PRODUCTION
@@ -99,7 +104,7 @@ if (currentTask == "build") {
 
   config.plugins.push(
     new MiniCssExtractPlugin({ filename: "styles.[chunkhash].css" }),
-    new MyRunAfterCompile()
+    new MyRunAfterCompile("dist")
   );
 }
 
