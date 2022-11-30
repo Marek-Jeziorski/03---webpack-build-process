@@ -18,7 +18,7 @@ const postCSSPlugins = [
 class MyRunAfterCompile {
   apply(compiler) {
     compiler.hooks.done.tap("Copy images", function () {
-      fse.copySync("src/assets/images", "dist/assets/images");
+      fse.copySync("src/assets/images", "dev/assets/images");
     });
   }
 }
@@ -36,14 +36,14 @@ let cssConfig = {
 };
 
 let pages = fse
-  .readdirSync("src/docs")
+  .readdirSync("src")
   .filter(function (file) {
     return file.endsWith(".html");
   })
   .map(function (page) {
     return new HtmlWebpackPlugin({
       filename: page,
-      template: `src/docs/${page}`,
+      template: `src/${page}`,
     });
   });
 
@@ -67,13 +67,16 @@ if (currentTask == "dev") {
 
   config.output = {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "src/docs"),
+    path: path.resolve(__dirname, "dev"),
   };
 
   config.devServer = {
-    static: "src/docs",
+    static: "dev",
+    watchFiles: path.join(__dirname, "src/**/*.html"),
     port: 3000,
   };
+
+  config.plugins.push(new MyRunAfterCompile());
 }
 
 // PRODUCTION
