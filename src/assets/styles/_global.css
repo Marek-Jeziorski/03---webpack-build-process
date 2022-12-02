@@ -1,6 +1,7 @@
 body {
-  background-color: black;
-  color: greenyellow;
+  background-color: rgb(35, 22, 218);
+  color: #bcbdba;
+  font-size: 1rem;
 
   .btn {
     font-weight: bold;
@@ -8,5 +9,10 @@ body {
     border-radius: 5px;
     color: black;
     background-color: rgb(102, 47, 255);
+  }
+  .brand {
+    width: 300px;
+    height: 200px;
+    border: 2px yellow solid;
   }
 }

@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/Marek-Jeziorski/webpack-x#readme",
   "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
     "autoprefixer": "^10.4.12",
+    "babel-loader": "^9.1.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "fs-extra": "^10.1.0",

@@ -15,20 +15,20 @@ const postCSSPlugins = [
   require("autoprefixer"),
 ];
 
+//------------------------ COPY ASSETS HANDLER ------------------
 class MyRunAfterCompile {
-  constructor(task) {
-    this.task = task;
-    console.log(task);
+  constructor(copyAssetsTo) {
+    this.copyAssetsTo = copyAssetsTo;
+    console.log("Assets are coping to folder --> " + copyAssetsTo);
   }
-
   apply(compiler) {
     compiler.hooks.done.tap("Copy images", () => {
-      fse.copySync("src/assets/images", `${this.task}/assets/images`);
+      fse.copySync("src/assets/images", `${this.copyAssetsTo}/assets/images`);
     });
   }
 }
 
-// COMMON
+//------------------------ MODULE RULES -------------------------
 let cssConfig = {
   test: /\.css$/i,
   use: [
@@ -39,7 +39,12 @@ let cssConfig = {
     },
   ],
 };
+let imagesConfig = {
+  test: /\.(png|svg|jpg|jpeg|gif)$/i,
+  type: "asset/resource",
+};
 
+//------------------------ PAGES TEMPLATES HANDLER --------------
 let pages = fse
   .readdirSync("src")
   .filter(function (file) {
@@ -52,20 +57,21 @@ let pages = fse
     });
   });
 
-// main webpack config
+//------------------------ MAIN MODULE.EXPORTS{} ----------------
 let config = {
   entry: path.resolve(__dirname, "src/assets/scripts/App.js"),
 
   devtool: "inline-source-map",
 
   module: {
-    rules: [cssConfig],
+    rules: [cssConfig, imagesConfig],
   },
 
   plugins: pages,
 };
 
-// DEVELOPMENT
+//------------------------- DEVELOPMENT -------------------------
+
 if (currentTask == "dev") {
   config.mode = "development";
   cssConfig.use.unshift("style-loader");
@@ -84,9 +90,22 @@ if (currentTask == "dev") {
   };
 }
 
-// PRODUCTION
+//------------------------- PRODUCTION -------------------------
+
 if (currentTask == "build") {
   config.mode = "production";
+
+  config.module.rules.push({
+    test: /\.js$/,
+    exclude: /(node_modules)/,
+    use: {
+      loader: "babel-loader",
+      options: {
+        presets: ["@babel/preset-env"],
+      },
+    },
+  });
+
   cssConfig.use.unshift(MiniCssExtractPlugin.loader);
 
   config.output = {
