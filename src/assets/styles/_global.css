@@ -1,7 +1,7 @@
 body {
   background-color: rgb(35, 22, 218);
   color: #bcbdba;
-  font-size: 1rem;
+  font-size: rem;
 
   .btn {
     font-weight: bold;

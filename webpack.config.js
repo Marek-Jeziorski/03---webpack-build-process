@@ -78,10 +78,10 @@ if (currentTask == "dev") {
 
   config.output = {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dev"),
+    path: path.resolve(__dirname, "dist"),
   };
 
-  config.plugins.push(new MyRunAfterCompile("dev"));
+  config.plugins.push(new MyRunAfterCompile("dist"));
 
   config.devServer = {
     static: "./dev",
@@ -109,7 +109,7 @@ if (currentTask == "build") {
   cssConfig.use.unshift(MiniCssExtractPlugin.loader);
 
   config.output = {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "docs"),
     filename: "[name].[chunkhash].js",
     chunkFilename: "[name].[chunkhash].js",
     clean: true,
@@ -123,7 +123,7 @@ if (currentTask == "build") {
 
   config.plugins.push(
     new MiniCssExtractPlugin({ filename: "styles.[chunkhash].css" }),
-    new MyRunAfterCompile("dist")
+    new MyRunAfterCompile("docs")
   );
 }
 
