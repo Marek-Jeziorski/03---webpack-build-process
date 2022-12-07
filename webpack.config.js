@@ -1,5 +1,5 @@
 const currentTask = process.env.npm_lifecycle_event;
-console.log(currentTask);
+console.log("Run mode: " + currentTask);
 
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -84,7 +84,7 @@ if (currentTask == "dev") {
   config.plugins.push(new MyRunAfterCompile("dist"));
 
   config.devServer = {
-    static: "./dev",
+    static: path.resolve(__dirname, "dist"),
     watchFiles: path.join(__dirname, "src/**/*.html"),
     port: 3000,
   };
